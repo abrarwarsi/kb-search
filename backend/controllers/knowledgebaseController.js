@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { getEmbedding } from '../services/embeddingService.js';
 import { addToFullTextIndex, finalizeFullTextIndex } from '../services/fullTextSearch.js';
 import { db, saveDatabase } from '../storage/db.js';
@@ -7,13 +8,14 @@ import { db, saveDatabase } from '../storage/db.js';
  * Adds a document with ID and content to the store.
  */
 export async function addToKnowledgebase(req, res) {
-  const { id, content } = req.body;
+  const { content } = req.body;
 
-  if (!id || !content) {
-    return res.status(400).json({ error: 'Both "id" and "content" are required.' });
+  if (!content) {
+    return res.status(400).json({ error: '"content" is required.' });
   }
 
   try {
+    const id = uuidv4();
     const embedding = await getEmbedding(content);
 
     // Save to in-memory DB

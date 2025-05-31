@@ -5,6 +5,7 @@ import { loadDatabase } from './storage/db.js';
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 app.use('/api/v1', routes);
 
 // Load persisted knowledgebase

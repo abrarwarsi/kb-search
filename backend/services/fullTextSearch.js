@@ -1,13 +1,19 @@
 import bm25 from 'wink-bm25-text-search';
-import { its, as } from 'wink-tokenizer';
+import winkTokenizer from 'wink-tokenizer';
+
+// Create a tokenizer instance
+const tokenizer = winkTokenizer();
+
+// Use tokenizer methods
+const { tokenize } = tokenizer;
 
 const engine = bm25();
 engine.defineConfig({ fldWeights: { content: 1 } });
 engine.definePrepTasks([
-  its.tokenize,
-  as.lowerCase,
-  as.removeStopWords,
-  as.stem,
+    tokenizer.its.tokenize,
+    tokenizer.as.lowerCase,
+    tokenizer.as.removeStopWords,
+    tokenizer.as.stem,
 ]);
 
 /**
